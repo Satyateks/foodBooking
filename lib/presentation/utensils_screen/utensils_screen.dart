@@ -9,9 +9,14 @@ import 'package:pru0234_s_application5/widgets/custom_search_view.dart';
 import 'widgets/productcard_item_widget.dart';
 
 // ignore_for_file: must_be_immutable
-class UtensilsScreen extends StatelessWidget {
-  UtensilsScreen({Key? key}) : super(key: key);
+class UtensilsScreen extends StatefulWidget {
+  const UtensilsScreen({Key? key}) : super(key: key);
 
+  @override
+  State<UtensilsScreen> createState() => _UtensilsScreenState();
+}
+
+class _UtensilsScreenState extends State<UtensilsScreen> {
   TextEditingController searchController = TextEditingController();
 
   GlobalKey<NavigatorState> navigatorKey = GlobalKey();
@@ -56,6 +61,7 @@ class UtensilsScreen extends StatelessWidget {
                                 child: CustomSearchView(
                                     controller: searchController,
                                     hintText: "Search Utensils",
+                                    autofocus: false,
                                     alignment: Alignment.center,
                                     borderDecoration: SearchViewStyleHelper
                                         .fillOnErrorContainer,

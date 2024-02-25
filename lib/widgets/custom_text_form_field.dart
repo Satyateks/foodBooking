@@ -8,8 +8,9 @@ class CustomTextFormField extends StatelessWidget {
     this.width,
     this.scrollPadding,
     this.controller,
-    this.focusNode,
-    this.autofocus = true,
+    this.cursorTracking = false,
+    // this.focusNode,
+    this.autofocus = false,
     this.textStyle,
     this.obscureText = false,
     this.textInputAction = TextInputAction.next,
@@ -26,9 +27,7 @@ class CustomTextFormField extends StatelessWidget {
     this.fillColor,
     this.filled = true,
     this.validator,
-  }) : super(
-          key: key,
-        );
+  }) : super(key: key);
 
   final Alignment? alignment;
 
@@ -38,9 +37,10 @@ class CustomTextFormField extends StatelessWidget {
 
   final TextEditingController? controller;
 
-  final FocusNode? focusNode;
+  // final FocusNode? focusNode;
 
   final bool? autofocus;
+  final bool? cursorTracking;
 
   final TextStyle? textStyle;
 
@@ -79,8 +79,7 @@ class CustomTextFormField extends StatelessWidget {
     return alignment != null
         ? Align(
             alignment: alignment ?? Alignment.center,
-            child: textFormFieldWidget(context),
-          )
+            child: textFormFieldWidget(context))
         : textFormFieldWidget(context);
   }
 
@@ -90,7 +89,7 @@ class CustomTextFormField extends StatelessWidget {
           scrollPadding:
               EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
           controller: controller,
-          focusNode: focusNode ?? FocusNode(),
+          // focusNode: focusNode ?? FocusNode(),
           autofocus: autofocus!,
           style: textStyle ?? theme.textTheme.bodyLarge,
           obscureText: obscureText!,

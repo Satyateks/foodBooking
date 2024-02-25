@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
       builder: (context, orientation, deviceType) {
         return MaterialApp(
           theme: theme,
-          title: 'pru0234_s_application5',
+          title: 'Food Booking',
           debugShowCheckedModeBanner: false,
           initialRoute: AppRoutes.onboardingOneScreen,
           routes: AppRoutes.routes,

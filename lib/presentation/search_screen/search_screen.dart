@@ -6,12 +6,14 @@ import 'package:pru0234_s_application5/widgets/app_bar/custom_app_bar.dart';
 import 'package:pru0234_s_application5/widgets/custom_icon_button.dart';
 import 'package:pru0234_s_application5/widgets/custom_search_view.dart';
 
-class SearchScreen extends StatelessWidget {
-  SearchScreen({Key? key})
-      : super(
-          key: key,
-        );
+class SearchScreen extends StatefulWidget {
+  const SearchScreen({Key? key}) : super(key: key);
 
+  @override
+  State<SearchScreen> createState() => _SearchScreenState();
+}
+
+class _SearchScreenState extends State<SearchScreen> {
   TextEditingController searchController = TextEditingController();
 
   @override
@@ -34,6 +36,7 @@ class SearchScreen extends StatelessWidget {
                 ),
                 child: CustomSearchView(
                   controller: searchController,
+                  autofocus: false,
                   hintText: "Search Food, Restaurants etc.",
                 ),
               ),
@@ -155,7 +158,7 @@ class SearchScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "BBQ Chicken Burger ",
+                  "BBQ Veg Burger ",
                   style: theme.textTheme.bodyLarge,
                 ),
                 SizedBox(height: 2.v),

@@ -9,9 +9,14 @@ import 'package:pru0234_s_application5/widgets/custom_elevated_button.dart';
 import 'package:pru0234_s_application5/widgets/custom_icon_button.dart';
 import 'package:pru0234_s_application5/presentation/utensils_product_one_bottomsheet/utensils_product_one_bottomsheet.dart';
 
-class UtensilsProductScreen extends StatelessWidget {
+class UtensilsProductScreen extends StatefulWidget {
   const UtensilsProductScreen({Key? key}) : super(key: key);
 
+  @override
+  State<UtensilsProductScreen> createState() => _UtensilsProductScreenState();
+}
+
+class _UtensilsProductScreenState extends State<UtensilsProductScreen> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
