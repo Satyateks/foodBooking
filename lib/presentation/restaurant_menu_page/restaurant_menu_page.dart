@@ -3,10 +3,7 @@ import 'package:pru0234_s_application5/core/app_export.dart';
 
 // ignore_for_file: must_be_immutable
 class RestaurantMenuPage extends StatefulWidget {
-  const RestaurantMenuPage({Key? key})
-      : super(
-          key: key,
-        );
+  const RestaurantMenuPage({Key? key}) : super(key: key);
 
   @override
   RestaurantMenuPageState createState() => RestaurantMenuPageState();
@@ -30,33 +27,23 @@ class RestaurantMenuPageState extends State<RestaurantMenuPage>
                 children: [
                   _buildClassicCheeseBurgerSection(context),
                   SizedBox(height: 17.v),
-                  Divider(
-                    color: appTheme.blueGray50,
-                  ),
+                  Divider(color: appTheme.blueGray50),
                   SizedBox(height: 24.v),
                   _buildSimplyCheeseWithSection(context),
                   SizedBox(height: 17.v),
-                  Divider(
-                    color: appTheme.blueGray50,
-                  ),
+                  Divider(color: appTheme.blueGray50),
                   SizedBox(height: 24.v),
                   _buildFrameFiftyTwoSection(context),
                   SizedBox(height: 17.v),
-                  Divider(
-                    color: appTheme.blueGray50,
-                  ),
+                  Divider(color: appTheme.blueGray50),
                   SizedBox(height: 25.v),
                   _buildWesternBBQCheeseburgerSection(context),
                   SizedBox(height: 16.v),
-                  Divider(
-                    color: appTheme.blueGray50,
-                  ),
+                  Divider(color: appTheme.blueGray50),
                   SizedBox(height: 26.v),
                   _buildFrameFiftyTwo(context),
                   SizedBox(height: 17.v),
-                  Divider(
-                    color: appTheme.blueGray50,
-                  ),
+                  Divider(color: appTheme.blueGray50),
                 ],
               ),
             ],
@@ -331,7 +318,7 @@ class RestaurantMenuPageState extends State<RestaurantMenuPage>
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Bacon and Veggies Salad",
+                  "Bacon & Veggies Salad",
                   style: CustomTextStyles.titleSmall15,
                 ),
                 _buildBaconAndVeggiesSection(
