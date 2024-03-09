@@ -9,9 +9,15 @@ import 'package:pru0234_s_application5/widgets/custom_pin_code_text_field.dart';
 import 'package:pru0234_s_application5/widgets/custom_text_form_field.dart';
 
 // ignore_for_file: must_be_immutable
-class PhoneVerificationScreen extends StatelessWidget {
-  PhoneVerificationScreen({Key? key}) : super(key: key);
+class PhoneVerificationScreen extends StatefulWidget {
+  const PhoneVerificationScreen({Key? key}) : super(key: key);
 
+  @override
+  State<PhoneVerificationScreen> createState() =>
+      _PhoneVerificationScreenState();
+}
+
+class _PhoneVerificationScreenState extends State<PhoneVerificationScreen> {
   TextEditingController phoneNumberController = TextEditingController();
 
   @override
@@ -45,7 +51,7 @@ class PhoneVerificationScreen extends StatelessWidget {
                         CustomTextFormField(
                             width: 171.h,
                             controller: phoneNumberController,
-                            hintText: "+90 169 916 9564",
+                            hintText: "+91 737632 0878",
                             hintStyle: CustomTextStyles.bodyLargeBluegray700,
                             contentPadding: EdgeInsets.symmetric(
                                 horizontal: 12.h, vertical: 9.v),
