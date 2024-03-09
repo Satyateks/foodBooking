@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pru0234_s_application5/core/app_export.dart';
+import 'package:pru0234_s_application5/presentation/restaurant_menu_tab_container_screen/restaurant_menu_tab_container_screen.dart';
+import 'package:pru0234_s_application5/presentation/search_utensils_screen/search_utensils_screen.dart';
+import 'package:pru0234_s_application5/presentation/utensils_product_screen/utensils_product_screen.dart';
 import 'package:pru0234_s_application5/widgets/app_bar/appbar_subtitle_three.dart';
 import 'package:pru0234_s_application5/widgets/app_bar/appbar_subtitle_two.dart';
 import 'package:pru0234_s_application5/widgets/app_bar/custom_app_bar.dart';
@@ -37,12 +40,26 @@ class LoginScreen extends StatelessWidget {
                             child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text("Welcome!",
-                                      style: CustomTextStyles.displaySmall_1),
+                                  GestureDetector(
+                                    onTap: () => Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                SearchUtensilsScreen())),
+                                    child: Text("Welcome!",
+                                        style: CustomTextStyles.displaySmall_1),
+                                  ),
                                   SizedBox(height: 5.v),
-                                  Text("Login to your account.",
-                                      style: CustomTextStyles
-                                          .bodyLargeBluegray500_1),
+                                  GestureDetector(
+                                    onTap: () => Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                RestaurantMenuTabContainerScreen())),
+                                    child: Text("Login to your account.",
+                                        style: CustomTextStyles
+                                            .bodyLargeBluegray500_1),
+                                  ),
                                   SizedBox(height: 38.v),
                                   Padding(
                                       padding: EdgeInsets.only(left: 13.h),
