@@ -1,22 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:pru0234_s_application5/core/app_export.dart';
+import 'package:pru0234_s_application5/presentation/restaurant_favorited_page/restaurant_favorited_page.dart';
+import 'package:pru0234_s_application5/presentation/restaurant_page/restaurant_page.dart';
 import 'package:pru0234_s_application5/widgets/app_bar/appbar_leading_image.dart';
 import 'package:pru0234_s_application5/widgets/app_bar/appbar_subtitle_four.dart';
 import 'package:pru0234_s_application5/widgets/app_bar/appbar_trailing_iconbutton.dart';
 import 'package:pru0234_s_application5/widgets/app_bar/appbar_trailing_image.dart';
 import 'package:pru0234_s_application5/widgets/app_bar/custom_app_bar.dart';
-import 'package:pru0234_s_application5/widgets/custom_elevated_button.dart';
 import 'package:pru0234_s_application5/widgets/custom_icon_button.dart';
-import 'package:pru0234_s_application5/widgets/custom_radio_button.dart';
-import 'widgets/sideitem_item_widget.dart';
+import 'package:pru0234_s_application5/presentation/restaurant_more_options_bottomsheet/restaurant_more_options_bottomsheet.dart';
+import 'package:pru0234_s_application5/presentation/restaurant_more_info_bottomsheet/restaurant_more_info_bottomsheet.dart';
+
+class RestaurantTabContainerScreen extends StatefulWidget {
+  const RestaurantTabContainerScreen({Key? key}) : super(key: key);
+
+  @override
+  RestaurantTabContainerScreenState createState() =>
+      RestaurantTabContainerScreenState();
+}
 
 // ignore_for_file: must_be_immutable
-class MealFullScreen extends StatelessWidget {
-  MealFullScreen({Key? key}) : super(key: key);
+class RestaurantTabContainerScreenState
+    extends State<RestaurantTabContainerScreen> with TickerProviderStateMixin {
+  late TabController tabviewController;
 
-  String radioGroup = "";
-
-  List<String> radioList = ["lbl_soft_drinks", "lbl_juices"];
+  @override
+  void initState() {
+    super.initState();
+    tabviewController = TabController(length: 3, vsync: this);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,73 +36,21 @@ class MealFullScreen extends StatelessWidget {
         child: Scaffold(
             appBar: _buildAppBar(context),
             body: SizedBox(
-                width: double.maxFinite,
-                child: Column(children: [
-                  SizedBox(height: 19.v),
-                  Expanded(
-                      child: SingleChildScrollView(
-                          child: Padding(
-                              padding: EdgeInsets.only(bottom: 5.v),
-                              child: Column(children: [
-                                _buildProductPicture(context),
-                                SizedBox(height: 10.v),
-                                _buildProductName(context),
-                                SizedBox(height: 26.v),
-                                _buildSideItem(context),
-                                SizedBox(height: 32.v),
-                                _buildDrinks(context),
-                                SizedBox(height: 18.v),
-                                _buildGroup251(context),
-                                SizedBox(height: 17.v),
-                                _buildFruitPunchJuice(context),
-                                SizedBox(height: 20.v),
-                                _buildEditCheeseburger(context),
-                                SizedBox(height: 18.v),
-                                _buildSesameSeedBun(context),
-                                SizedBox(height: 28.v),
-                                Padding(
-                                    padding: EdgeInsets.only(
-                                        left: 26.h, right: 21.h),
-                                    child: _buildChipotleSauce(context,
-                                        chipotleSauce: "BBQ Sauce", one: "1")),
-                                SizedBox(height: 30.v),
-                                _buildBeefPatty(context),
-                                SizedBox(height: 20.v),
-                                _buildCheese(context),
-                                SizedBox(height: 29.v),
-                                _buildBananaPeppers(context),
-                                SizedBox(height: 28.v),
-                                _buildLettuce(context),
-                                SizedBox(height: 28.v),
-                                Padding(
-                                    padding: EdgeInsets.only(
-                                        left: 26.h, right: 21.h),
-                                    child: _buildChipotleSauce(context,
-                                        chipotleSauce: "Chipotle Sauce",
-                                        one: "1")),
-                                SizedBox(height: 28.v),
-                                Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Padding(
-                                        padding: EdgeInsets.only(left: 21.h),
-                                        child: Row(children: [
-                                          CustomImageView(
-                                              imagePath: ImageConstant
-                                                  .imgRectangle32x92,
-                                              height: 32.v,
-                                              width: 92.h),
-                                          Padding(
-                                              padding: EdgeInsets.only(
-                                                  left: 2.h,
-                                                  top: 5.v,
-                                                  bottom: 5.v),
-                                              child: Text("Sesame Seed Bun",
-                                                  style: CustomTextStyles
-                                                      .titleMediumInterPrimary17))
-                                        ])))
-                              ]))))
-                ])),
-            bottomNavigationBar: _buildAddToBag(context)));
+                width: SizeUtils.width,
+                child: SingleChildScrollView(
+                    child: Column(children: [
+                  CustomImageView(
+                      imagePath: ImageConstant.imgProductPicture,
+                      height: 164.v,
+                      width: 390.h),
+                  SizedBox(height: 18.v),
+                  _buildLogoRow(context),
+                  SizedBox(height: 21.v),
+                  _buildMusicRow(context),
+                  SizedBox(height: 18.v),
+                  _buildTabview(context),
+                  _buildTabBarView(context)
+                ])))));
   }
 
   /// Section Widget
@@ -105,513 +65,213 @@ class MealFullScreen extends StatelessWidget {
         actions: [
           AppbarTrailingIconbutton(
               imagePath: ImageConstant.imgUserPrimary36x36,
-              margin: EdgeInsets.only(left: 27.h, top: 1.v, right: 12.h)),
+              margin: EdgeInsets.only(left: 27.h, top: 1.v, right: 12.h),
+              onTap: () {
+                onTapUser(context);
+              }),
+          AppbarTrailingImage(
+              imagePath: ImageConstant.imgContrastPrimary,
+              margin: EdgeInsets.fromLTRB(22.h, 7.v, 12.h, 6.v),
+              onTap: () {
+                onTapContrast(context);
+              }),
           AppbarTrailingImage(
               imagePath: ImageConstant.imgBag,
-              margin: EdgeInsets.fromLTRB(27.h, 7.v, 39.h, 6.v))
+              margin: EdgeInsets.fromLTRB(28.h, 7.v, 39.h, 6.v))
         ],
         styleType: Style.bgFill_1);
   }
 
   /// Section Widget
-  Widget _buildProductPicture(BuildContext context) {
-    return Align(
-        alignment: Alignment.centerRight,
-        child: SizedBox(
-            height: 198.v,
-            width: 368.h,
-            child: Stack(alignment: Alignment.bottomCenter, children: [
-              CustomImageView(
-                  imagePath: ImageConstant.imgRectangle191x179,
-                  height: 191.v,
-                  width: 179.h,
-                  alignment: Alignment.topRight),
-              CustomImageView(
-                  imagePath: ImageConstant.imgRectangle38x103,
-                  height: 134.v,
-                  width: 365.h,
-                  alignment: Alignment.bottomCenter,
-                  margin: EdgeInsets.only(bottom: 11.v)),
-              CustomImageView(
-                  imagePath: ImageConstant.imgRectangle27x80,
-                  height: 74.v,
-                  width: 220.h,
-                  alignment: Alignment.bottomRight,
-                  margin: EdgeInsets.only(right: 33.h))
-            ])));
-  }
-
-  /// Section Widget
-  // Widget _buildProductInfo(BuildContext context) {
-  //   return Padding(
-  //       padding: EdgeInsets.symmetric(horizontal: 15.h),
-  //       child: Row(
-  //           mainAxisAlignment: MainAxisAlignment.center,
-  //           crossAxisAlignment: CrossAxisAlignment.start,
-  //           children: [
-  //             SizedBox(
-  //               // width: 274.h,
-  //               child: Text("Western BBQ \nCheeseburger Meal",
-  //                   maxLines: 2,
-  //                   overflow: TextOverflow.ellipsis,
-  //                   style:
-  //                       theme.textTheme.headlineMedium!.copyWith(height: 1.56)),
-  //             ),
-  //             Opacity(
-  //                 opacity: 0.34,
-  //                 child: Padding(
-  //                   padding: EdgeInsets.only(top: 8.v, bottom: 58.v),
-  //                   child: Text("340-400 Cals",
-  //                       style: CustomTextStyles.titleSmallPrimary),
-  //                 )),
-  //             Opacity(
-  //                 opacity: 0.34,
-  //                 child: CustomImageView(
-  //                     imagePath: ImageConstant.imgInbox,
-  //                     height: 19.adaptSize,
-  //                     width: 19.adaptSize,
-  //                     margin:
-  //                         EdgeInsets.only(left: 4.h, top: 7.v, bottom: 57.v)))
-  //           ]));
-  // }
-  Widget _buildProductName(BuildContext context) {
-    return SizedBox(
-        height: 74.v,
-        width: 346.h,
-        child: Stack(alignment: Alignment.topRight, children: [
-          Align(
-              alignment: Alignment.centerLeft,
-              child: SizedBox(
-                  width: 234.h,
-                  child: Text("Western BBQ Cheeseburger Meal",
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: theme.textTheme.headlineMedium!
-                          .copyWith(height: 1.33)))),
-          Align(
-              alignment: Alignment.topRight,
-              child: Padding(
-                  padding: EdgeInsets.only(top: 7.v),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Padding(
-                            padding: EdgeInsets.only(bottom: 1.v),
-                            child: Text("340-400 Cals",
-                                style: CustomTextStyles.titleSmallBluegray200)),
-                        Padding(
-                            padding: EdgeInsets.only(left: 4.h),
-                            child: CustomIconButton(
-                                height: 19.adaptSize,
-                                width: 19.adaptSize,
-                                child: CustomImageView(
-                                    imagePath:
-                                        ImageConstant.imgInboxBlueGray200)))
-                      ])))
-        ]));
-  }
-
-  /// Section Widget
-  Widget _buildSideItem(BuildContext context) {
-    return ListView.separated(
-        physics: NeverScrollableScrollPhysics(),
-        shrinkWrap: true,
-        separatorBuilder: (context, index) {
-          return SizedBox(height: 18.v);
-        },
-        itemCount: 2,
-        itemBuilder: (context, index) {
-          return SideitemItemWidget(onTapBtnImageClass: () {
-            onTapBtnImageClass(context);
-          });
-        });
-  }
-
-  /// Section Widget
-  Widget _buildDrinks(BuildContext context) {
-    return Container(
-        width: double.maxFinite,
-        padding: EdgeInsets.symmetric(horizontal: 21.h, vertical: 13.v),
-        decoration: AppDecoration.fillBluegray50,
-        child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Padding(
-              padding: EdgeInsets.symmetric(vertical: 4.v),
-              child:
-                  Text("Drinks", style: CustomTextStyles.bodyLargeOnPrimary)),
-          Spacer(),
-          Padding(
-              padding: EdgeInsets.only(top: 8.v, bottom: 6.v),
-              child: Text("Required", style: theme.textTheme.labelLarge)),
-          Padding(
-              padding: EdgeInsets.only(left: 12.h),
+  Widget _buildLogoRow(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 21.h),
+      child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Padding(
+              padding: EdgeInsets.only(top: 4.v),
               child: CustomIconButton(
-                  height: 28.adaptSize,
-                  width: 28.adaptSize,
-                  padding: EdgeInsets.all(2.h),
-                  decoration: IconButtonStyleHelper.fillBlueGrayTL14,
-                  onTap: () {
-                    onTapBtnUpload(context);
-                  },
-                  child: CustomImageView(imagePath: ImageConstant.imgUpload)))
-        ]));
-  }
-
-  /// Section Widget
-  Widget _buildGroup251(BuildContext context) {
-    return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 21.h),
-        child: Column(children: [
-          CustomRadioButton(
-              width: 348.h,
-              text: "Soft Drinks",
-              value: radioList[0],
-              groupValue: radioGroup,
-              padding: EdgeInsets.symmetric(vertical: 1.v),
-              isRightCheck: true,
-              onChange: (value) {
-                radioGroup = value;
-              }),
-          Padding(
-              padding: EdgeInsets.only(top: 31.v),
-              child: CustomRadioButton(
-                  width: 348.h,
-                  text: "Juices",
-                  value: radioList[1],
-                  groupValue: radioGroup,
-                  padding: EdgeInsets.symmetric(vertical: 1.v),
-                  isRightCheck: true,
-                  onChange: (value) {
-                    radioGroup = value;
-                  }))
-        ]));
-  }
-
-  /// Section Widget
-  Widget _buildFruitPunchJuice(BuildContext context) {
-    return GestureDetector(
-        onTap: () {
-          onTapFruitPunchJuice(context);
-        },
-        child: Container(
-            margin: EdgeInsets.symmetric(horizontal: 16.h),
-            padding: EdgeInsets.symmetric(horizontal: 13.h, vertical: 19.v),
-            decoration: AppDecoration.outlineBluegray200
-                .copyWith(borderRadius: BorderRadiusStyle.circleBorder12),
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  CustomImageView(
-                      imagePath: ImageConstant.imgFrame,
-                      height: 33.v,
-                      width: 38.h,
-                      margin: EdgeInsets.only(left: 7.h)),
-                  Padding(
-                      padding:
-                          EdgeInsets.only(left: 2.h, top: 6.v, bottom: 5.v),
-                      child: Text("Fruit Punch Juice",
-                          style: theme.textTheme.bodyLarge)),
-                  Spacer(),
-                  Padding(
-                      padding: EdgeInsets.only(top: 7.v, bottom: 8.v),
-                      child: Text("Edit",
-                          style: CustomTextStyles.titleSmallMedium_1)),
-                  CustomImageView(
-                      imagePath: ImageConstant.imgArrowRight,
-                      height: 24.adaptSize,
-                      width: 24.adaptSize,
-                      margin: EdgeInsets.symmetric(vertical: 4.v))
-                ])));
-  }
-
-  /// Section Widget
-  Widget _buildEditCheeseburger(BuildContext context) {
-    return Container(
-        width: double.maxFinite,
-        padding: EdgeInsets.symmetric(horizontal: 21.h, vertical: 14.v),
-        decoration: AppDecoration.fillBluegray50,
-        child:
-            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-          Padding(
-              padding: EdgeInsets.only(top: 4.v, bottom: 2.v),
-              child: Text("Edit Cheeseburger",
-                  style: CustomTextStyles.bodyLargeOnPrimary)),
-          CustomIconButton(
-              height: 28.adaptSize,
-              width: 28.adaptSize,
-              padding: EdgeInsets.all(2.h),
-              decoration: IconButtonStyleHelper.fillBlueGrayTL14,
-              onTap: () {
-                onTapBtnUpload1(context);
-              },
-              child: CustomImageView(imagePath: ImageConstant.imgUpload))
-        ]));
-  }
-
-  /// Section Widget
-  Widget _buildSesameSeedBun(BuildContext context) {
-    return Padding(
-        padding: EdgeInsets.only(left: 27.h, right: 21.h),
-        child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          CustomImageView(
-              imagePath: ImageConstant.imgRectangle30x86,
-              height: 30.v,
-              width: 86.h),
-          Padding(
-              padding: EdgeInsets.only(left: 2.h, top: 4.v, bottom: 5.v),
-              child: Text("Sesame Seed Bun",
-                  style: CustomTextStyles.titleMediumInterPrimary)),
-          Spacer(),
-          Padding(
-              padding: EdgeInsets.symmetric(vertical: 6.v),
-              child: Text("Edit", style: CustomTextStyles.titleSmallMedium_1)),
-          CustomImageView(
-              imagePath: ImageConstant.imgArrowRight,
-              height: 24.adaptSize,
-              width: 24.adaptSize,
-              margin: EdgeInsets.symmetric(vertical: 3.v))
-        ]));
-  }
-
-  /// Section Widget
-  Widget _buildBeefPatty(BuildContext context) {
-    return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 21.h),
-        child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          CustomImageView(
-              imagePath: ImageConstant.imgRectangle33x88,
-              height: 33.v,
-              width: 88.h,
-              margin: EdgeInsets.only(bottom: 3.v)),
-          Padding(
-              padding: EdgeInsets.only(left: 6.h),
+                  height: 64.adaptSize,
+                  width: 64.adaptSize,
+                  padding: EdgeInsets.all(18.h),
+                  decoration: IconButtonStyleHelper.fillRedTL32,
+                  child:
+                      CustomImageView(imagePath: ImageConstant.imgLogo36x36)),
+            ),
+            Padding(
+              padding: EdgeInsets.only(left: 14.h, top: 10.v),
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Beef Patty",
-                        style: CustomTextStyles.titleMediumInterPrimary),
-                    SizedBox(height: 1.v),
-                    Text("1.59 ea",
-                        style: CustomTextStyles.bodyMediumDeeporange300)
-                  ])),
-          Spacer(),
-          Padding(
-              padding: EdgeInsets.only(top: 2.v, bottom: 3.v),
+                    Text("McDonald’s",
+                        style: CustomTextStyles.headlineMedium26),
+                    SizedBox(height: 4.v),
+                    Row(children: [
+                      CustomImageView(
+                        imagePath: ImageConstant.imgLinkedinPrimary19x19,
+                        height: 19.adaptSize,
+                        width: 19.adaptSize,
+                        margin: EdgeInsets.only(bottom: 1.v),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 4.h),
+                        child: Text("Bramlea & Sandalwood",
+                            style: CustomTextStyles.bodyLarge16),
+                      )
+                    ])
+                  ]),
+            ),
+            Padding(
+              padding: EdgeInsets.only(left: 26.h, bottom: 18.v),
               child: CustomIconButton(
-                  height: 32.adaptSize,
-                  width: 32.adaptSize,
-                  padding: EdgeInsets.all(6.h),
-                  child: CustomImageView(imagePath: ImageConstant.imgUpload))),
-          Padding(
-              padding: EdgeInsets.only(left: 10.h, top: 7.v, bottom: 8.v),
-              child: Text("1", style: CustomTextStyles.bodyLarge_1)),
-          Padding(
-              padding: EdgeInsets.only(left: 11.h, top: 2.v, bottom: 3.v),
-              child: CustomIconButton(
-                  height: 32.adaptSize,
-                  width: 32.adaptSize,
-                  padding: EdgeInsets.all(6.h),
-                  child: CustomImageView(imagePath: ImageConstant.imgPlus)))
-        ]));
+                  height: 40.adaptSize,
+                  width: 40.adaptSize,
+                  padding: EdgeInsets.all(14.h),
+                  decoration: IconButtonStyleHelper.fillBlueGray,
+                  child: CustomImageView(
+                      imagePath: ImageConstant.imgContrastBlueGray200)),
+            )
+          ]),
+    );
   }
 
   /// Section Widget
-  Widget _buildCheese(BuildContext context) {
-    return Padding(
-        padding: EdgeInsets.only(left: 25.h, right: 21.h),
-        child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          CustomImageView(
-              imagePath: ImageConstant.imgRectangle16x79,
-              height: 16.v,
-              width: 79.h,
-              margin: EdgeInsets.symmetric(vertical: 11.v)),
-          Padding(
-              padding: EdgeInsets.only(left: 10.h),
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Align(
-                        alignment: Alignment.center,
-                        child: Text("Cheese",
-                            style: CustomTextStyles.titleMediumInterPrimary)),
-                    SizedBox(height: 3.v),
-                    Text("0.59 ea",
-                        style: CustomTextStyles.bodyMediumDeeporange300)
-                  ])),
-          Spacer(),
-          Padding(
-              padding: EdgeInsets.symmetric(vertical: 3.v),
-              child: CustomIconButton(
-                  height: 32.adaptSize,
-                  width: 32.adaptSize,
-                  padding: EdgeInsets.all(6.h),
-                  child: CustomImageView(imagePath: ImageConstant.imgUpload))),
-          Padding(
-              padding: EdgeInsets.only(left: 10.h, top: 9.v, bottom: 8.v),
-              child: Text("1", style: CustomTextStyles.bodyLarge_1)),
-          Padding(
-              padding: EdgeInsets.only(left: 11.h, top: 3.v, bottom: 3.v),
-              child: CustomIconButton(
-                  height: 32.adaptSize,
-                  width: 32.adaptSize,
-                  padding: EdgeInsets.all(6.h),
-                  child: CustomImageView(imagePath: ImageConstant.imgPlus)))
-        ]));
-  }
-
-  /// Section Widget
-  Widget _buildBananaPeppers(BuildContext context) {
-    return Padding(
-        padding: EdgeInsets.only(left: 24.h, right: 21.h),
-        child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          CustomImageView(
-              imagePath: ImageConstant.imgRectangle20x70,
-              height: 20.v,
-              width: 70.h,
-              margin: EdgeInsets.symmetric(vertical: 6.v)),
-          Padding(
-              padding: EdgeInsets.only(left: 20.h, top: 7.v, bottom: 3.v),
-              child: Text("Banana Peppers",
-                  style: CustomTextStyles.titleMediumInterPrimary17)),
-          Spacer(),
-          CustomIconButton(
-              height: 32.adaptSize,
-              width: 32.adaptSize,
-              padding: EdgeInsets.all(6.h),
-              child: CustomImageView(imagePath: ImageConstant.imgUpload)),
-          Padding(
-              padding: EdgeInsets.only(left: 10.h, top: 5.v, bottom: 5.v),
-              child: Text("1", style: CustomTextStyles.bodyLarge_1)),
-          Padding(
-              padding: EdgeInsets.only(left: 11.h),
-              child: CustomIconButton(
-                  height: 32.adaptSize,
-                  width: 32.adaptSize,
-                  padding: EdgeInsets.all(6.h),
-                  child: CustomImageView(imagePath: ImageConstant.imgPlus)))
-        ]));
-  }
-
-  /// Section Widget
-  Widget _buildLettuce(BuildContext context) {
-    return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 21.h),
-        child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          CustomImageView(
-              imagePath: ImageConstant.imgRectangle14x85,
-              height: 14.v,
-              width: 85.h,
-              margin: EdgeInsets.symmetric(vertical: 9.v)),
-          Padding(
-              padding: EdgeInsets.only(left: 8.h, top: 5.v, bottom: 5.v),
-              child: Text("Lettuce",
-                  style: CustomTextStyles.titleMediumInterPrimary17)),
-          Spacer(),
-          CustomIconButton(
-              height: 32.adaptSize,
-              width: 32.adaptSize,
-              padding: EdgeInsets.all(6.h),
-              child: CustomImageView(imagePath: ImageConstant.imgUpload)),
-          Padding(
-              padding: EdgeInsets.only(left: 10.h, top: 5.v, bottom: 5.v),
-              child: Text("1", style: CustomTextStyles.bodyLarge_1)),
-          Padding(
-              padding: EdgeInsets.only(left: 11.h),
-              child: CustomIconButton(
-                  height: 32.adaptSize,
-                  width: 32.adaptSize,
-                  padding: EdgeInsets.all(6.h),
-                  child: CustomImageView(imagePath: ImageConstant.imgPlus)))
-        ]));
-  }
-
-  /// Section Widget
-  Widget _buildAddToBag(BuildContext context) {
+  Widget _buildMusicRow(BuildContext context) {
     return Container(
-        margin: EdgeInsets.only(left: 21.h, right: 21.h, bottom: 49.v),
-        decoration: AppDecoration.fillWhiteA700,
+        margin: EdgeInsets.symmetric(horizontal: 21.h),
+        padding: EdgeInsets.all(15.h),
+        decoration: AppDecoration.fillBluegray200
+            .copyWith(borderRadius: BorderRadiusStyle.roundedBorder8),
         child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Expanded(
-                  child: CustomElevatedButton(
-                      height: 62.v,
-                      text: "Add to Bag",
-                      leftIcon: Container(
-                          margin: EdgeInsets.only(right: 7.h),
-                          child: CustomImageView(
-                              imagePath: ImageConstant.imgThumbsup,
-                              height: 21.adaptSize,
-                              width: 21.adaptSize)))),
               Padding(
-                  padding: EdgeInsets.only(left: 18.h),
+                  padding: EdgeInsets.only(bottom: 3.v),
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(children: [
+                          CustomImageView(
+                            imagePath: ImageConstant.imgStar2,
+                            height: 20.adaptSize,
+                            width: 20.adaptSize,
+                            radius: BorderRadius.circular(1.h),
+                            margin: EdgeInsets.only(bottom: 1.v),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: 7.h, top: 4.v),
+                            child: Text("Ratings: 4.5",
+                                style: CustomTextStyles.titleSmallMedium_2),
+                          )
+                        ]),
+                        SizedBox(height: 9.v),
+                        Row(children: [
+                          CustomImageView(
+                            imagePath: ImageConstant.imgMusic,
+                            height: 18.adaptSize,
+                            width: 18.adaptSize,
+                            margin: EdgeInsets.only(bottom: 1.v),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: 8.h, top: 2.v),
+                            child: Text("Delivers in 15-20 min",
+                                style: CustomTextStyles.titleSmallMedium_2),
+                          )
+                        ]),
+                        SizedBox(height: 9.v),
+                        Row(children: [
+                          CustomImageView(
+                            imagePath: ImageConstant.imgUserRed800,
+                            height: 16.adaptSize,
+                            width: 16.adaptSize,
+                            margin: EdgeInsets.only(bottom: 2.v),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: 9.h),
+                            child: Text("Burgers",
+                                style: CustomTextStyles.titleSmallMedium_2),
+                          )
+                        ])
+                      ])),
+              Padding(
+                  padding: EdgeInsets.only(top: 14.v, right: 9.h, bottom: 15.v),
                   child: CustomIconButton(
-                      height: 62.adaptSize,
-                      width: 62.adaptSize,
-                      padding: EdgeInsets.all(19.h),
-                      decoration: IconButtonStyleHelper.fillRedTL181,
+                      height: 50.adaptSize,
+                      width: 50.adaptSize,
+                      padding: EdgeInsets.all(12.h),
+                      decoration: IconButtonStyleHelper.fillWhiteA,
+                      onTap: () {
+                        onTapBtnArrowRight(context);
+                      },
                       child: CustomImageView(
-                          imagePath: ImageConstant.imgFavoriteRed300)))
+                          imagePath: ImageConstant.imgArrowRight)))
             ]));
   }
 
-  /// Common widget
-  Widget _buildChipotleSauce(
-    BuildContext context, {
-    required String chipotleSauce,
-    required String one,
-  }) {
-    return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-      CustomImageView(
-          imagePath: ImageConstant.imgRectangle18x82,
-          height: 18.v,
-          width: 82.h,
-          margin: EdgeInsets.only(top: 8.v, bottom: 6.v)),
-      Padding(
-          padding: EdgeInsets.only(left: 7.h, top: 7.v, bottom: 3.v),
-          child: Text(chipotleSauce,
-              style: CustomTextStyles.titleMediumInterPrimary17
-                  .copyWith(color: theme.colorScheme.primary))),
-      Spacer(),
-      CustomIconButton(
-          height: 32.adaptSize,
-          width: 32.adaptSize,
-          padding: EdgeInsets.all(6.h),
-          child: CustomImageView(imagePath: ImageConstant.imgUpload)),
-      Padding(
-          padding: EdgeInsets.only(left: 10.h, top: 5.v, bottom: 5.v),
-          child: Text(one,
-              style: CustomTextStyles.bodyLarge_1
-                  .copyWith(color: theme.colorScheme.primary))),
-      Padding(
-          padding: EdgeInsets.only(left: 11.h),
-          child: CustomIconButton(
-              height: 32.adaptSize,
-              width: 32.adaptSize,
-              padding: EdgeInsets.all(6.h),
-              child: CustomImageView(imagePath: ImageConstant.imgPlus)))
-    ]);
+  /// Section Widget
+  Widget _buildTabview(BuildContext context) {
+    return Container(
+        height: 89.v,
+        width: 412.h,
+        child: TabBar(
+            controller: tabviewController,
+            isScrollable: true,
+            labelColor: theme.colorScheme.primary,
+            labelStyle: TextStyle(
+                fontSize: 17.fSize,
+                fontFamily: 'Inter',
+                fontWeight: FontWeight.w500),
+            unselectedLabelColor: appTheme.blueGray200,
+            unselectedLabelStyle: TextStyle(
+                fontSize: 17.fSize,
+                fontFamily: 'Inter',
+                fontWeight: FontWeight.w400),
+            indicatorColor: theme.colorScheme.primary,
+            tabs: [
+              Tab(child: Text("Breakfast Menu")),
+              Tab(child: Text("Lunch & Dinner")),
+              Tab(child: Text("Overnight Menu"))
+            ]));
   }
 
-  /// Navigates to the mealCollapsedScreen when the action is triggered.
-  onTapBtnImageClass(BuildContext context) {
-    Navigator.pushNamed(context, AppRoutes.mealCollapsedScreen);
+  /// Section Widget
+  Widget _buildTabBarView(BuildContext context) {
+    return SizedBox(
+        height: 294.v,
+        child: TabBarView(controller: tabviewController, children: [
+          RestaurantPage(),
+          RestaurantFavoritedPage(),
+          RestaurantFavoritedPage()
+        ]));
   }
 
-  /// Navigates to the mealCollapsedScreen when the action is triggered.
-  onTapBtnUpload(BuildContext context) {
-    Navigator.pushNamed(context, AppRoutes.mealCollapsedScreen);
+  /// Shows a modal bottom sheet with [RestaurantMoreOptionsBottomsheet]
+  /// widget content.
+  /// The sheet is displayed on top of the current view with scrolling enabled if
+  /// content exceeds viewport height.
+  onTapUser(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (_) => RestaurantMoreOptionsBottomsheet(),
+        isScrollControlled: true);
   }
 
-  /// Navigates to the editAddOnScreen when the action is triggered.
-  onTapFruitPunchJuice(BuildContext context) {
-    Navigator.pushNamed(context, AppRoutes.editAddOnScreen);
+  /// Navigates to the restaurantSearchTabContainerScreen when the action is triggered.
+  onTapContrast(BuildContext context) {
+    Navigator.pushNamed(context, AppRoutes.restaurantSearchTabContainerScreen);
   }
 
-  /// Navigates to the mealCollapsedScreen when the action is triggered.
-  onTapBtnUpload1(BuildContext context) {
-    Navigator.pushNamed(context, AppRoutes.mealCollapsedScreen);
+  /// Shows a modal bottom sheet with [RestaurantMoreInfoBottomsheet]
+  /// widget content.
+  /// The sheet is displayed on top of the current view with scrolling enabled if
+  /// content exceeds viewport height.
+  onTapBtnArrowRight(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (_) => RestaurantMoreInfoBottomsheet(),
+        isScrollControlled: true);
   }
 }
