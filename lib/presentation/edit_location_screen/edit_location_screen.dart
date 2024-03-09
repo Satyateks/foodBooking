@@ -9,9 +9,13 @@ import '../edit_location_screen/widgets/frameeightyeight_item_widget.dart';
 import 'package:pru0234_s_application5/presentation/change_location_bottomsheet/change_location_bottomsheet.dart';
 
 // ignore_for_file: must_be_immutable
-class EditLocationScreen extends StatelessWidget {
-  EditLocationScreen({Key? key}) : super(key: key);
+class EditLocationScreen extends StatefulWidget {
+  const EditLocationScreen({Key? key}) : super(key: key);
+  @override
+  State<EditLocationScreen> createState() => _EditLocationScreenState();
+}
 
+class _EditLocationScreenState extends State<EditLocationScreen> {
   Completer<GoogleMapController> googleMapController = Completer();
 
   TextEditingController typeSomethingHereOneEditTextController =
@@ -52,10 +56,10 @@ class EditLocationScreen extends StatelessWidget {
                                           Align(
                                               alignment: Alignment.center,
                                               child: SizedBox(
-                                                  width: 55.h,
-                                                  child: Divider(
-                                                      color: appTheme
-                                                          .blueGray50))),
+                                                width: 55.h,
+                                                child: Divider(
+                                                    color: appTheme.blueGray50),
+                                              )),
                                           SizedBox(height: 22.v),
                                           Padding(
                                               padding:
