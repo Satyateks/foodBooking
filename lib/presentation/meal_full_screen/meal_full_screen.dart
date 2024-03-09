@@ -34,7 +34,7 @@ class MealFullScreen extends StatelessWidget {
                               child: Column(children: [
                                 _buildProductPicture(context),
                                 SizedBox(height: 10.v),
-                                _buildProductInfo(context),
+                                _buildProductName(context),
                                 SizedBox(height: 26.v),
                                 _buildSideItem(context),
                                 SizedBox(height: 32.v),
@@ -142,35 +142,74 @@ class MealFullScreen extends StatelessWidget {
   }
 
   /// Section Widget
-  Widget _buildProductInfo(BuildContext context) {
-    return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 21.h),
-        child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
+  // Widget _buildProductInfo(BuildContext context) {
+  //   return Padding(
+  //       padding: EdgeInsets.symmetric(horizontal: 15.h),
+  //       child: Row(
+  //           mainAxisAlignment: MainAxisAlignment.center,
+  //           crossAxisAlignment: CrossAxisAlignment.start,
+  //           children: [
+  //             SizedBox(
+  //               // width: 274.h,
+  //               child: Text("Western BBQ \nCheeseburger Meal",
+  //                   maxLines: 2,
+  //                   overflow: TextOverflow.ellipsis,
+  //                   style:
+  //                       theme.textTheme.headlineMedium!.copyWith(height: 1.56)),
+  //             ),
+  //             Opacity(
+  //                 opacity: 0.34,
+  //                 child: Padding(
+  //                   padding: EdgeInsets.only(top: 8.v, bottom: 58.v),
+  //                   child: Text("340-400 Cals",
+  //                       style: CustomTextStyles.titleSmallPrimary),
+  //                 )),
+  //             Opacity(
+  //                 opacity: 0.34,
+  //                 child: CustomImageView(
+  //                     imagePath: ImageConstant.imgInbox,
+  //                     height: 19.adaptSize,
+  //                     width: 19.adaptSize,
+  //                     margin:
+  //                         EdgeInsets.only(left: 4.h, top: 7.v, bottom: 57.v)))
+  //           ]));
+  // }
+  Widget _buildProductName(BuildContext context) {
+    return SizedBox(
+        height: 74.v,
+        width: 346.h,
+        child: Stack(alignment: Alignment.topRight, children: [
+          Align(
+              alignment: Alignment.centerLeft,
+              child: SizedBox(
                   width: 234.h,
                   child: Text("Western BBQ Cheeseburger Meal",
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: theme.textTheme.headlineMedium!
-                          .copyWith(height: 1.56))),
-              Opacity(
-                  opacity: 0.34,
-                  child: Padding(
-                      padding: EdgeInsets.only(top: 8.v, bottom: 58.v),
-                      child: Text("340-400 Cals",
-                          style: CustomTextStyles.titleSmallPrimary))),
-              Opacity(
-                  opacity: 0.34,
-                  child: CustomImageView(
-                      imagePath: ImageConstant.imgInbox,
-                      height: 19.adaptSize,
-                      width: 19.adaptSize,
-                      margin:
-                          EdgeInsets.only(left: 4.h, top: 7.v, bottom: 57.v)))
-            ]));
+                          .copyWith(height: 1.33)))),
+          Align(
+              alignment: Alignment.topRight,
+              child: Padding(
+                  padding: EdgeInsets.only(top: 7.v),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Padding(
+                            padding: EdgeInsets.only(bottom: 1.v),
+                            child: Text("340-400 Cals",
+                                style: CustomTextStyles.titleSmallBluegray200)),
+                        Padding(
+                            padding: EdgeInsets.only(left: 4.h),
+                            child: CustomIconButton(
+                                height: 19.adaptSize,
+                                width: 19.adaptSize,
+                                child: CustomImageView(
+                                    imagePath:
+                                        ImageConstant.imgInboxBlueGray200)))
+                      ])))
+        ]));
   }
 
   /// Section Widget
