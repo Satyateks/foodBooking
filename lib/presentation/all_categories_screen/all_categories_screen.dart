@@ -7,9 +7,14 @@ import 'package:pru0234_s_application5/widgets/custom_search_view.dart';
 import 'widgets/burgerscomponent1_item_widget.dart';
 
 // ignore_for_file: must_be_immutable
-class AllCategoriesScreen extends StatelessWidget {
-  AllCategoriesScreen({Key? key}) : super(key: key);
+class AllCategoriesScreen extends StatefulWidget {
+  const AllCategoriesScreen({Key? key}) : super(key: key);
 
+  @override
+  State<AllCategoriesScreen> createState() => _AllCategoriesScreenState();
+}
+
+class _AllCategoriesScreenState extends State<AllCategoriesScreen> {
   TextEditingController searchController = TextEditingController();
 
   @override
@@ -29,6 +34,7 @@ class AllCategoriesScreen extends StatelessWidget {
                       SizedBox(height: 7.v),
                       CustomSearchView(
                           controller: searchController,
+                          autofocus: false,
                           hintText: "Search by Category"),
                       SizedBox(height: 18.v),
                       _buildBurgersComponent(context)
