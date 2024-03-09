@@ -1,145 +1,78 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:pru0234_s_application5/core/app_export.dart';
-import 'package:pru0234_s_application5/presentation/homepage_page/homepage_page.dart';
-import 'package:pru0234_s_application5/widgets/custom_bottom_bar.dart';
-import 'widgets/restaurantcard_item_widget.dart';
+import 'package:pru0234_s_application5/widgets/app_bar/appbar_leading_image.dart';
+import 'package:pru0234_s_application5/widgets/app_bar/appbar_subtitle_four.dart';
+import 'package:pru0234_s_application5/widgets/app_bar/custom_app_bar.dart';
+import 'package:pru0234_s_application5/widgets/custom_search_view.dart';
+import 'widgets/burgerscomponent1_item_widget.dart';
 
-class DiscoverScreen extends StatelessWidget {
-  DiscoverScreen({Key? key})
-      : super(
-          key: key,
-        );
+// ignore_for_file: must_be_immutable
+class AllCategoriesScreen extends StatefulWidget {
+  const AllCategoriesScreen({Key? key}) : super(key: key);
 
-  Completer<GoogleMapController> googleMapController = Completer();
+  @override
+  State<AllCategoriesScreen> createState() => _AllCategoriesScreenState();
+}
 
-  int sliderIndex = 1;
-
-  GlobalKey<NavigatorState> navigatorKey = GlobalKey();
+class _AllCategoriesScreenState extends State<AllCategoriesScreen> {
+  TextEditingController searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-        extendBody: true,
-        extendBodyBehindAppBar: true,
-        body: Container(
-          width: SizeUtils.width,
-          height: SizeUtils.height,
-          decoration: BoxDecoration(
-            color: appTheme.whiteA700,
-            image: DecorationImage(
-              image: AssetImage(
-                ImageConstant.imgGroup231,
-              ),
-              fit: BoxFit.cover,
-            ),
-          ),
-          child: SizedBox(
-            width: double.maxFinite,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildMap(context),
-                SizedBox(height: 39.v),
-                _buildRestaurantCard(context),
-                SizedBox(height: 5.v),
-              ],
-            ),
-          ),
-        ),
-        bottomNavigationBar: _buildBottomBar(context),
-      ),
-    );
+        child: Scaffold(
+            resizeToAvoidBottomInset: false,
+            appBar: _buildAppBar(context),
+            body: Container(
+                width: double.maxFinite,
+                padding: EdgeInsets.symmetric(horizontal: 21.h, vertical: 16.v),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("All Categories",
+                          style: theme.textTheme.displaySmall),
+                      SizedBox(height: 7.v),
+                      CustomSearchView(
+                          controller: searchController,
+                          autofocus: false,
+                          hintText: "Search by Category"),
+                      SizedBox(height: 18.v),
+                      _buildBurgersComponent(context)
+                    ]))));
   }
 
   /// Section Widget
-  Widget _buildMap(BuildContext context) {
-    return SizedBox(
-      height: 429.v,
-      width: double.maxFinite,
-      child: GoogleMap(
-        //TODO: Add your Google Maps API key in AndroidManifest.xml and pod file
-        mapType: MapType.normal,
-        initialCameraPosition: CameraPosition(
-          target: LatLng(
-            37.43296265331129,
-            -122.08832357078792,
-          ),
-          zoom: 14.4746,
-        ),
-        onMapCreated: (GoogleMapController controller) {
-          googleMapController.complete(controller);
-        },
-        zoomControlsEnabled: false,
-        zoomGesturesEnabled: false,
-        myLocationButtonEnabled: false,
-        myLocationEnabled: false,
-      ),
-    );
+  PreferredSizeWidget _buildAppBar(BuildContext context) {
+    return CustomAppBar(
+        leadingWidth: 57.h,
+        leading: AppbarLeadingImage(
+            imagePath: ImageConstant.imgArrowDown,
+            margin: EdgeInsets.only(left: 21.h, top: 1.v, bottom: 12.v)),
+        title: AppbarSubtitleFour(
+            text: "Back", margin: EdgeInsets.only(left: 1.h)),
+        styleType: Style.bgFill_1);
   }
 
   /// Section Widget
-  Widget _buildRestaurantCard(BuildContext context) {
-    return CarouselSlider.builder(
-      options: CarouselOptions(
-        height: 221.v,
-        initialPage: 0,
-        autoPlay: true,
-        viewportFraction: 1.0,
-        enableInfiniteScroll: false,
-        scrollDirection: Axis.horizontal,
-        onPageChanged: (
-          index,
-          reason,
-        ) {
-          sliderIndex = index;
-        },
-      ),
-      itemCount: 3,
-      itemBuilder: (context, index, realIndex) {
-        return RestaurantcardItemWidget();
-      },
-    );
+  Widget _buildBurgersComponent(BuildContext context) {
+    return GridView.builder(
+        shrinkWrap: true,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            mainAxisExtent: 120.v,
+            crossAxisCount: 3,
+            mainAxisSpacing: 19.h,
+            crossAxisSpacing: 19.h),
+        physics: NeverScrollableScrollPhysics(),
+        itemCount: 11,
+        itemBuilder: (context, index) {
+          return Burgerscomponent1ItemWidget(onTapBurgersComponent: () {
+            onTapBurgersComponent(context);
+          });
+        });
   }
 
-  /// Section Widget
-  Widget _buildBottomBar(BuildContext context) {
-    return CustomBottomBar(
-      onChanged: (BottomBarEnum type) {
-        Navigator.pushNamed(
-            navigatorKey.currentContext!, getCurrentRoute(type));
-      },
-    );
-  }
-
-  ///Handling route based on bottom click actions
-  String getCurrentRoute(BottomBarEnum type) {
-    switch (type) {
-      case BottomBarEnum.Home:
-        return AppRoutes.homepagePage;
-      case BottomBarEnum.Discover:
-        return "/";
-      case BottomBarEnum.Drivethru:
-        return "/";
-      case BottomBarEnum.Orders:
-        return "/";
-      case BottomBarEnum.Profile:
-        return "/";
-      default:
-        return "/";
-    }
-  }
-
-  ///Handling page based on route
-  Widget getCurrentPage(String currentRoute) {
-    switch (currentRoute) {
-      case AppRoutes.homepagePage:
-        return HomepagePage();
-      default:
-        return DefaultWidget();
-    }
+  /// Navigates to the categoryPageScreen when the action is triggered.
+  onTapBurgersComponent(BuildContext context) {
+    Navigator.pushNamed(context, AppRoutes.categoryPageScreen);
   }
 }
